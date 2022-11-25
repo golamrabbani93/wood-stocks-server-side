@@ -34,6 +34,23 @@ async function run() {
 			const result = await cursor.toArray();
 			res.send(result);
 		});
+		//*update sold product
+		app.put('/updateproduct/:id', async (req, res) => {
+			const id = req.params.id;
+			const status = req.body;
+			console.log('🚀🚀: run -> status', status.productStatus);
+			const filter = {_id: ObjectId(id)};
+			const option = {upsert: true};
+
+			const updateProductStatus = {
+				$set: {
+					productStatus: status.productStatus,
+				},
+			};
+			const result = await productsCollection.updateOne(filter, updateProductStatus, option);
+			console.log('🚀🚀: run -> result', result);
+			res.send(result);
+		});
 		//*post sold products
 		app.post('/soldproduct', async (req, res) => {
 			const soldProduct = req.body;
