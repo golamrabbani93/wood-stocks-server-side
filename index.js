@@ -14,6 +14,21 @@ const client = new MongoClient(uri, {
 	useUnifiedTopology: true,
 	serverApi: ServerApiVersion.v1,
 });
+//*verify jwt web token
+function verifyJWT(req, res, next) {
+	const authHeader = req.headers.authorization;
+	if (!authHeader) {
+		return res.status(401).send('unauthorized access');
+	}
+	const token = authHeader.split(' ')[1];
+	jwt.verify(token, process.env.WEB_TOKEN, function (err, decoded) {
+		if (err) {
+			return res.status(403).send({message: 'forbidden access'});
+		}
+		req.decoded = decoded;
+		next();
+	});
+}
 async function run() {
 	try {
 		const categoriesCollection = client.db('sitpad').collection('category');
@@ -77,8 +92,12 @@ async function run() {
 		});
 
 		//* get all orders by user email
-		app.get('/orders', async (req, res) => {
+		app.get('/orders', verifyJWT, async (req, res) => {
 			const email = req.query.email;
+			const decodedEmail = req.decoded.email;
+			if (email !== decodedEmail) {
+				return res.status(403).send({message: 'forbidden access'});
+			}
 			const query = {email: email};
 			const cursor = allOrdersCollection.find(query);
 			const result = await cursor.toArray();
