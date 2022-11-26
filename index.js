@@ -19,8 +19,18 @@ async function run() {
 		const categoriesCollection = client.db('sitpad').collection('category');
 		const productsCollection = client.db('sitpad').collection('products');
 		const allOrdersCollection = client.db('sitpad').collection('orders');
-		const userCollection = client.db('sitpad').collection('user');
-
+		const usersCollection = client.db('sitpad').collection('user');
+		//*json web token
+		app.get('/jwt', async (req, res) => {
+			const email = req.query.email;
+			const query = {email: email};
+			const user = await usersCollection.findOne(query);
+			if (user) {
+				const token = jwt.sign({email}, process.env.WEB_TOKEN, {expiresIn: '1h'});
+				return res.send({accessToken: token});
+			}
+			res.status(403).send({accessToken: ''});
+		});
 		//*products category
 		app.get('/categories', async (req, res) => {
 			const query = {};
@@ -83,14 +93,14 @@ async function run() {
 		//*Get all Users
 		app.get('/users', async (req, res) => {
 			const query = {};
-			const cursor = userCollection.find(query);
+			const cursor = usersCollection.find(query);
 			const result = await cursor.toArray();
 			res.send(result);
 		});
 		//*post user
 		app.post('/user', async (req, res) => {
 			const user = req.body;
-			const result = await userCollection.insertOne(user);
+			const result = await usersCollection.insertOne(user);
 			res.send(result);
 		});
 	} finally {
