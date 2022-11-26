@@ -62,8 +62,13 @@ async function run() {
 			res.send(result);
 		});
 		//*get products by user name
-		app.get('/products', async (req, res) => {
+		app.get('/products', verifyJWT, async (req, res) => {
 			const name = req.query.name;
+			const email = req.query.email;
+			const decodedEmail = req.decoded.email;
+			if (email !== decodedEmail) {
+				return res.status(403).send({message: 'forbidden access'});
+			}
 			const query = {seller_name: name};
 			const cursor = productsCollection.find(query);
 			const result = await cursor.toArray();
@@ -117,6 +122,19 @@ async function run() {
 				return res.status(403).send({message: 'forbidden access'});
 			}
 			const query = {};
+			const cursor = usersCollection.find(query);
+			const result = await cursor.toArray();
+			res.send(result);
+		});
+		//*Get all Users
+		app.get('/users/seller', verifyJWT, async (req, res) => {
+			const email = req.query.email;
+			const userRole = req.query.userRole;
+			const decodedEmail = req.decoded.email;
+			if (email !== decodedEmail) {
+				return res.status(403).send({message: 'forbidden access'});
+			}
+			const query = {userRole: userRole};
 			const cursor = usersCollection.find(query);
 			const result = await cursor.toArray();
 			res.send(result);
