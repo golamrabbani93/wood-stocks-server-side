@@ -17,7 +17,7 @@ async function run() {
 	try {
 		const categoriesCollection = client.db('sitpad').collection('category');
 		const productsCollection = client.db('sitpad').collection('products');
-		const SoldProductsCollection = client.db('sitpad').collection('sold-products');
+		const allOrders = client.db('sitpad').collection('orders');
 		const userCollection = client.db('sitpad').collection('user');
 		//*products category
 		app.get('/categories', async (req, res) => {
@@ -48,13 +48,12 @@ async function run() {
 				},
 			};
 			const result = await productsCollection.updateOne(filter, updateProductStatus, option);
-			console.log('🚀🚀: run -> result', result);
 			res.send(result);
 		});
 		//*post sold products
-		app.post('/soldproduct', async (req, res) => {
+		app.post('/orders', async (req, res) => {
 			const soldProduct = req.body;
-			const result = await SoldProductsCollection.insertOne(soldProduct);
+			const result = await allOrders.insertOne(soldProduct);
 			res.send(result);
 		});
 		//*post user
