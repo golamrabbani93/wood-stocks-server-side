@@ -78,6 +78,13 @@ async function run() {
 			const result = await allOrdersCollection.insertOne(soldProduct);
 			res.send(result);
 		});
+		//*Get all Users
+		app.get('/users', async (req, res) => {
+			const query = {};
+			const cursor = userCollection.find(query);
+			const result = await cursor.toArray();
+			res.send(result);
+		});
 		//*post user
 		app.post('/user', async (req, res) => {
 			const user = req.body;
