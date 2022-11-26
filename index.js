@@ -34,6 +34,14 @@ async function run() {
 			const result = await cursor.toArray();
 			res.send(result);
 		});
+		//*get products by user name
+		app.get('/products', async (req, res) => {
+			const name = req.query.name;
+			const query = {seller_name: name};
+			const cursor = productsCollection.find(query);
+			const result = await cursor.toArray();
+			res.send(result);
+		});
 		//*post user
 		app.post('/products', async (req, res) => {
 			const productDetails = req.body;
