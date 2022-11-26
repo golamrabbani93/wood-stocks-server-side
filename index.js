@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+var jwt = require('jsonwebtoken');
 const {MongoClient, ServerApiVersion, ObjectId} = require('mongodb');
 const port = process.env.PORT || 5000;
 const app = express();
@@ -19,6 +20,7 @@ async function run() {
 		const productsCollection = client.db('sitpad').collection('products');
 		const allOrdersCollection = client.db('sitpad').collection('orders');
 		const userCollection = client.db('sitpad').collection('user');
+
 		//*products category
 		app.get('/categories', async (req, res) => {
 			const query = {};
