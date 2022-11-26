@@ -34,6 +34,12 @@ async function run() {
 			const result = await cursor.toArray();
 			res.send(result);
 		});
+		//*post user
+		app.post('/products', async (req, res) => {
+			const productDetails = req.body;
+			const result = await productsCollection.insertOne(productDetails);
+			res.send(result);
+		});
 		//*update sold product
 		app.put('/updateproduct/:id', async (req, res) => {
 			const id = req.params.id;
