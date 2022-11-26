@@ -126,8 +126,21 @@ async function run() {
 			const result = await cursor.toArray();
 			res.send(result);
 		});
-		//*Get all Users
+		//*Get all Seller
 		app.get('/users/seller', verifyJWT, async (req, res) => {
+			const email = req.query.email;
+			const userRole = req.query.userRole;
+			const decodedEmail = req.decoded.email;
+			if (email !== decodedEmail) {
+				return res.status(403).send({message: 'forbidden access'});
+			}
+			const query = {userRole: userRole};
+			const cursor = usersCollection.find(query);
+			const result = await cursor.toArray();
+			res.send(result);
+		});
+		//*Get all Seller
+		app.get('/users/buyer', verifyJWT, async (req, res) => {
 			const email = req.query.email;
 			const userRole = req.query.userRole;
 			const decodedEmail = req.decoded.email;
