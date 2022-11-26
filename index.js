@@ -74,7 +74,8 @@ async function run() {
 			const result = await cursor.toArray();
 			res.send(result);
 		});
-		//*post user
+
+		//*post Product
 		app.post('/products', async (req, res) => {
 			const productDetails = req.body;
 			const result = await productsCollection.insertOne(productDetails);
@@ -139,7 +140,7 @@ async function run() {
 			const result = await cursor.toArray();
 			res.send(result);
 		});
-		//*Get all Seller
+		//*Get all Buyer
 		app.get('/users/buyer', verifyJWT, async (req, res) => {
 			const email = req.query.email;
 			const userRole = req.query.userRole;
@@ -151,6 +152,17 @@ async function run() {
 			const cursor = usersCollection.find(query);
 			const result = await cursor.toArray();
 			res.send(result);
+		});
+		//*check userrole
+		app.get('/users/userrole/:email', verifyJWT, async (req, res) => {
+			const email = req.params.email;
+			const decodedEmail = req.decoded.email;
+			if (email !== decodedEmail) {
+				return res.status(403).send({message: 'forbidden access'});
+			}
+			const query = {email};
+			const user = await usersCollection.findOne(query);
+			res.send(user);
 		});
 		//*post user
 		app.post('/user', async (req, res) => {
