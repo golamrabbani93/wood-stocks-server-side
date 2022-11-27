@@ -160,6 +160,13 @@ async function run() {
 			const result = await usersCollection.deleteOne(query);
 			res.send(result);
 		});
+		//*Delete specic seller
+		app.delete('/users/seller/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = {_id: ObjectId(id)};
+			const result = await usersCollection.deleteOne(query);
+			res.send(result);
+		});
 		//*check userrole
 		app.get('/users/userrole/:email', verifyJWT, async (req, res) => {
 			const email = req.params.email;
