@@ -153,6 +153,13 @@ async function run() {
 			const result = await cursor.toArray();
 			res.send(result);
 		});
+		//*Delete specic Buyer
+		app.delete('/users/buyer/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = {_id: ObjectId(id)};
+			const result = await usersCollection.deleteOne(query);
+			res.send(result);
+		});
 		//*check userrole
 		app.get('/users/userrole/:email', verifyJWT, async (req, res) => {
 			const email = req.params.email;
