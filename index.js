@@ -160,6 +160,20 @@ async function run() {
 			const result = await usersCollection.deleteOne(query);
 			res.send(result);
 		});
+		//*Verify seller
+		app.put('/verify/seller/:id', async (req, res) => {
+			const id = req.params.id;
+			const seller = req.body;
+			const filter = {_id: ObjectId(id)};
+			const option = {upsert: true};
+			const updateSellerStatus = {
+				$set: {
+					seller: seller.seller,
+				},
+			};
+			const result = await usersCollection.updateOne(filter, updateSellerStatus, option);
+			res.send(result);
+		});
 		//*Delete specic seller
 		app.delete('/users/seller/:id', async (req, res) => {
 			const id = req.params.id;
