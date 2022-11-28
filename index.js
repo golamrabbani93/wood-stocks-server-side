@@ -33,6 +33,7 @@ async function run() {
 	try {
 		const categoriesCollection = client.db('sitpad').collection('category');
 		const productsCollection = client.db('sitpad').collection('products');
+		const advertiseProductsCollection = client.db('sitpad').collection('Advertise products');
 		const allOrdersCollection = client.db('sitpad').collection('orders');
 		const usersCollection = client.db('sitpad').collection('user');
 		//*json web token
@@ -79,6 +80,11 @@ async function run() {
 		app.post('/products', async (req, res) => {
 			const productDetails = req.body;
 			const result = await productsCollection.insertOne(productDetails);
+			res.send(result);
+		});
+		app.post('/product/advertise', async (req, res) => {
+			const product = req.body;
+			const result = await advertiseProductsCollection.insertOne(product);
 			res.send(result);
 		});
 		//*update sold product
