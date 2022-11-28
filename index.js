@@ -87,6 +87,22 @@ async function run() {
 			const result = await advertiseProductsCollection.insertOne(product);
 			res.send(result);
 		});
+		//*Upadte product by advertise
+		app.put('/product/advertise/:id', async (req, res) => {
+			const advertise = req.body;
+			const id = req.params.id;
+			const filter = {_id: ObjectId(id)};
+			const option = {upsert: true};
+
+			const updateProductStatus = {
+				$set: {
+					advertise: advertise.advertise,
+				},
+			};
+			const result = await productsCollection.updateOne(filter, updateProductStatus, option);
+			res.send(result);
+		});
+
 		//*update sold product
 		app.put('/updateproduct/:id', async (req, res) => {
 			const id = req.params.id;
