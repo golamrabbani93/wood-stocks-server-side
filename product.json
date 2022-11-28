@@ -1,0 +1,35 @@
+[
+    {
+        "img": "https://i.ibb.co/4Sq45qc/home-1.jpg",
+        "name": "Sofa Set",
+        "price": 99,
+        "og_price": 199,
+        "uses": 2,
+        "seller_name": "John Carter",
+        "category_name": "home furniture",
+        "category_id": 1,
+        "location": "dhaka"
+    },
+    {
+        "img": "https://i.ibb.co/hFDnpnk/kichen-1.jpg",
+        "name": "Wall Box",
+        "price": 77,
+        "og_price": 123,
+        "uses": 3,
+        "seller_name": "Leandro P",
+        "category_name": "kichen furniture",
+        "category_id": 2,
+        "location": "Khulna"
+    },
+    {
+        "img": "https://i.ibb.co/6B9q596/office-1.jpg",
+        "name": "Office Desk",
+        "price": 199,
+        "og_price": 399,
+        "uses": 1,
+        "seller_name": "Abraham C",
+        "category_name": "Office furniture ",
+        "category_id": 3,
+        "location": "Rajshahi"
+    }
+]
